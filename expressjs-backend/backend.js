@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const port = 5000;
 
+//debug: set DEBUG=express:router
+
 app.use(express.json())
 
 app.get('/', (req,res) => {
@@ -43,12 +45,28 @@ function findUserById(id) {
 app.post('/users', (req, res) => {
     const userToAdd = req.body;
     addUser(userToAdd);
-    res.status(200).end(); 
+    res.status(201).end(); 
 });
 
 function addUser(user) {
     users['users_list'].push(user);
 }
+
+app.delete('/users/:id', (req, res) => {
+    const id = req.params['id'];
+    let result = findUserById(id);
+    if (result === undefined || result.length == 0)
+        res.status(404).send('Resource not found.');
+    else {
+        users['users_list'].splice(users['users_list'].indexOf(result), 1);
+        res.status(200).end();
+    }
+})
+
+/**app.get('/users', (req, res) => {
+    const name = req.params['name'];
+    const job = req.params['job'];
+})*/
 
 app.listen(port, () => {
     console.log('Example app listening at http://localhost:${port}');
