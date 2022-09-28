@@ -12,18 +12,34 @@ app.get('/', (req,res) => {
 
 app.get('/users', (req, res) => {
     const name = req.query.name;
-    if (name != undefined){
+    const job = req.query.job;
+    if (name != undefined && job != undefined) {
+        let resultN = findUserByName(name);
+        let resultJ = findUserByJob(job);
+        let resultCom = resultN.filter(job => resultJ.includes(job))
+        resultCom = {users_list: resultCom};
+        res.send(resultCom);
+    } else if (name != undefined) {
         let result = findUserByName(name);
         result = {users_list: result};
         res.send(result);
-    }
-    else {
+    } else if (job != undefined) {
+        let result = findUserByJob(job);
+        result = {users_list: result};
+        res.send(result);
+    } else {
         res.send(users);
+        //res.status(404).end();
     }
+    
 });
 
 const findUserByName = (name) => {
     return users['users_list'].filter( (user) => user['name'] === name);
+}
+
+const findUserByJob = (job) => {
+    return users['users_list'].filter( (user) => user['job'] === job);
 }
 
 app.get('/users/:id', (req, res) => {
@@ -61,12 +77,7 @@ app.delete('/users/:id', (req, res) => {
         users['users_list'].splice(users['users_list'].indexOf(result), 1);
         res.status(200).end();
     }
-})
-
-/**app.get('/users', (req, res) => {
-    const name = req.params['name'];
-    const job = req.params['job'];
-})*/
+});
 
 app.listen(port, () => {
     console.log('Example app listening at http://localhost:${port}');
