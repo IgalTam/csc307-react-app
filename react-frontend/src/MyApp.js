@@ -15,10 +15,8 @@ function MyApp() {
 
     function remChar(id, index) {
       makeDeleteCall(id).then( result => {
-        if (result && result.status === 204) {
-          console.log(index);
+        if (result && result.status === 204)
           removeOneCharacter(index);
-        }
       })
     }
 
