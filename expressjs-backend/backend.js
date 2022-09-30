@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const { v4: uuidv4 } = require('uuid');
 const app = express();
 const port = 5000;
 
@@ -63,10 +64,11 @@ function findUserById(id) {
 app.post('/users', (req, res) => {
     const userToAdd = req.body;
     addUser(userToAdd);
-    res.status(201).end(); 
+    res.status(201).send(userToAdd); 
 });
 
 function addUser(user) {
+    user.id = uuidv4();
     users['users_list'].push(user);
 }
 
