@@ -18,7 +18,6 @@ function MyApp() {
         if (result && result.status === 204) {
           console.log(index);
           removeOneCharacter(index);
-          console.log(characters);
         }
       })
     }
