@@ -79,12 +79,12 @@ app.delete('/users/:id', (req, res) => {
         res.status(404).send('Resource not found.');
     else {
         users['users_list'].splice(users['users_list'].indexOf(result), 1);
-        res.status(200).end();
+        res.status(204).end();
     }
 });
 
 app.listen(port, () => {
-    console.log('Example app listening at http://localhost:${port}');
+    console.log(`Example app listening at http://localhost:${port}`);
 });
 
 const users = { 
