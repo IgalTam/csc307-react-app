@@ -13,8 +13,8 @@ function MyApp() {
         setCharacters(updated);
     }
 
-    function remChar(id, index) {
-      makeDeleteCall(id).then( result => {
+    function remChar(_id, index) {
+      makeDeleteCall(_id).then( result => {
         if (result && result.status === 204)
           removeOneCharacter(index);
       })
